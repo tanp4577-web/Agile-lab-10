@@ -3,8 +3,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello Students! Kubernetes CI/CD is working!"
-assert b"Wrong message" in response.data
+    return "Version 2: Updated through CI/CD!"
+
 
 
 @app.route("/health")
