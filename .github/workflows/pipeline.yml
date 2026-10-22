@@ -1,4 +1,4 @@
-name: Student Kubernetes CI/CD
+﻿name: Student Kubernetes CI/CD
 on:
   push:
     branches: [main]
@@ -43,4 +43,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: tanp77/STUDENT-DEMO-K7:latest
+          tags: tanp77/student-demo-k7:latest
