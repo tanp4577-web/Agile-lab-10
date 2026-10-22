@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: student-k8s-demo
-          image: tanp77/student-k8s-demo:latest
+          image: tanp77/STUDENT-DEMO-K7:latest
           ports:
             - containerPort: 5000
           readinessProbe:
