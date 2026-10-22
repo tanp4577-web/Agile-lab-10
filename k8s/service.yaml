@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: student-k8s-demo
-          image: tanp77/student-demo-k7:YOUR_ACTUAL_COMMIT_SHA
+          image: tanp77/student-demo-k7:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
