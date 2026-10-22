@@ -1,7 +1,7 @@
-FROM maven:3.9.5-eclipse-temurin-17
+﻿FROM python:3.12-slim
 WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
-COPY src ./src
-COPY test ./test
-CMD ["mvn", "test"]
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY app.py .
+EXPOSE 5000
+CMD ["python", "app.py"]
