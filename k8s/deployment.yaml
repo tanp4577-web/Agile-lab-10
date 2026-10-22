@@ -1,26 +1,50 @@
-﻿apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: student-k8s-demo
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: student-k8s-demo
-  template:
-    metadata:
-      labels:
-        app: student-k8s-demo
-    spec:
-      containers:
-        - name: student-k8s-demo
-          image: tanp77/student-demo-k7:latest
-          imagePullPolicy: Never
-          ports:
-            - containerPort: 5000
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 5000
-            initialDelaySeconds: 5
-            periodSeconds: 5
+﻿name: Student Kubernetes CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Checkout and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        run: python -m pytest -v
+
+  docker:
+    name: Build and Push Docker Image
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/student-demo-k7:${{ github.sha }}
