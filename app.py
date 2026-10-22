@@ -4,6 +4,7 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return "Hello Students! Kubernetes CI/CD is working!"
+assert b"Wrong message" in response.data
 
 
 @app.route("/health")
