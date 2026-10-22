@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: student-k8s-demo
-          image: YOUR_DOCKERHUB_USERNAME/student-k8s-demo:REPLACE_WITH_COMMIT_SHA
+          image: tanp77/student-k8s-demo:latest
           ports:
             - containerPort: 5000
           readinessProbe:
